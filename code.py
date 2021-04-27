@@ -8,18 +8,16 @@ naipes = ['♠','♣',' ♦','♥']
 baralho = ['A♥', 'K♥', 'Q♥', 'J♥', '10♥', '9♥', '8♥', '7♥', '6♥', '5♥', '4♥','3♥', '2♥','A♠', 'K♠', 'Q♠', 'J♠', '10♠','9♠', '8♠', '7♠', '6♠', '5♠', '4♠', '3♠', '2♠','A♦','K♦','Q♦', 'J♦', '10♦', '9♦', '8♦', '7♦', '6♦', '5♦', '4♦', '3♦', '2♦', 'A♣', 'K♣', 'Q♣', 'J♣', '10♣', '9♣', '8♣', '7♣', '6♣', '5♣', '4♣', '3♣', '2♣']
 
 baralho_misturado = []
-baralho_certo = []
-def cria_baralho(baralho):
+def cria_baralho():
     baralho_misturado = random.sample(baralho, len(baralho))
-    baralho_certo.append(baralho_misturado)
-    return(baralho_certo)
+    return(baralho_misturado)
 
-
-print(cria_baralho(baralho))
+new_baralho = cria_baralho()
+print(new_baralho)
 
 #########################################################################################################
 lista_naipes = []
-for i in baralho_certo:
+for i in new_baralho:
     if len (i)>2:
         lista_naipes.append(i[2])
     else:
@@ -30,7 +28,7 @@ print(lista_naipes)
 ##########################################################################################################
 
 lista_valores = []
-for i in baralho_certo:
+for i in new_baralho:
     if len(i)>1:
         lista_valores.append(i[0])
     if len (i)>2:
