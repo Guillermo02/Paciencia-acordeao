@@ -38,3 +38,29 @@ for i in new_baralho:
 print(lista_valores)
 
 
+jog = new_baralho[8]
+i = 8
+def lista_movimentos_possiveis(new_baralho):
+    sol1 = False
+    sol2 = False
+    if len(jog)>2:
+        valor = jog[0] + jog[1]
+        naipe = jog[2]
+    else:
+        valor = jog[0]
+        naipe = jog[1]
+    
+    #Verifica valor e naipe
+    if lista_valores[i] == lista_valores[i-1] or lista_naipes[i] == lista_naipes[i-1]:
+        sol1 = True
+    elif lista_valores[i] == lista_valores[i-3] or lista_naipes[i] == lista_naipes[i-3]:
+        sol2 = True
+
+    if sol1 == True and sol2==True:
+        return [1, 3]
+    elif sol1 == True and sol2==False:
+        return [1]
+    elif sol1 == False and sol2==True:
+        return [3]
+    else:
+        return []
