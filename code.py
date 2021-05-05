@@ -5,12 +5,7 @@ import random
 
 ###Baralho inicial
 baralho = ['A♥', 'K♥', 'Q♥', 'J♥', '10♥', '9♥', '8♥', '7♥', '6♥', '5♥', '4♥','3♥', '2♥','A♠', 'K♠', 'Q♠', 'J♠', '10♠','9♠', '8♠', '7♠', '6♠', '5♠', '4♠', '3♠', '2♠','A♦','K♦','Q♦', 'J♦', '10♦', '9♦', '8♦', '7♦', '6♦', '5♦', '4♦', '3♦', '2♦', 'A♣', 'K♣', 'Q♣', 'J♣', '10♣', '9♣', '8♣', '7♣', '6♣', '5♣', '4♣', '3♣', '2♣']
-###Cria lista dos números para escolha
-escolhas = [0]*52
-m =1
-for i in range(0,len(escolhas)):
-    escolhas[i] += m
-    m+=1
+
 ###Mistura o baralho
 baralho_misturado = []
 def cria_baralho():
@@ -38,16 +33,18 @@ for i in new_baralho:
         lista_valores.append(m)
 
 #########################################################################################################
+###### Primeira Rodada ######
 #Enumera as opções
-for i,value in enumerate(new_baralho, 1):
-    print(i,value)
 
-num_jog = int(input('Escolha uma carta e passe seu número equivalente: '))
-carta_jog = new_baralho[num_jog-1]
-print(num_jog)
-print(carta_jog)
+qr_jogar = input('Deseja jogar? (s)(n)')
+if qr_jogar == 's':
+    for i,value in enumerate(new_baralho, 1):
+        print(i,value)
+    num_jog = int(input('Escolha uma carta: '))
+    carta_jog = new_baralho[num_jog-1]
+#########################################################################################################
 
-
+##Função que verifica possiveis movimentos
 def lista_movimentos_possiveis(new_baralho):
     sol1 = False
     sol2 = False
@@ -78,13 +75,20 @@ def lista_movimentos_possiveis(new_baralho):
         return [3]
     else:
         return []
-    print(new_baralho)
+print(carta_jog)
 print(lista_movimentos_possiveis(new_baralho))
-print(lista_valores[num_jog-2])
-print(lista_naipes[num_jog-2])
+print(lista_valores[num_jog-2], lista_valores[num_jog-4])
+print(lista_naipes[num_jog-2], lista_naipes[num_jog-4])
 
-#for i,value in enumerate(new_baralho, 1):
-    #print(i,value)
+
+
+
+
+#while qr_jogar == 's':
+    #qr_jogar = input('Deseja jogar? (s)(n)')
+    #num_jog = int(input('Escolha uma carta e passe seu número equivalente: '))
+#carta_jog = new_baralho[num_jog-1]
+#print(carta_jog)
     
 #while carta_jog != 'n':
     #lista_movimentos_possiveis(new_baralho)
