@@ -33,15 +33,7 @@ for i in new_baralho:
         lista_valores.append(m)
 
 #########################################################################################################
-###### Primeira Rodada ######
-#Enumera as opções
 
-qr_jogar = input('Deseja jogar? (s)(n)')
-if qr_jogar == 's':
-    for i,value in enumerate(new_baralho, 1):
-        print(i,value)
-    num_jog = int(input('Escolha uma carta: '))
-    carta_jog = new_baralho[num_jog-1]
 #########################################################################################################
 
 ##Função que verifica possiveis movimentos
@@ -64,24 +56,60 @@ def lista_movimentos_possiveis(new_baralho):
     if sol1 == True and sol2==True:
         return [1, 3]
     elif sol1 == True and sol2==False:
-        del(lista_valores[num_jog-1])
-        del(lista_naipes[num_jog-1])
-        del(new_baralho[num_jog-1])
         return [1]
     elif sol1 == False and sol2==True:
-        del(lista_valores[num_jog-3])
-        del(lista_naipes[num_jog-3])
-        del(new_baralho[num_jog-3])
         return [3]
     else:
         return []
-print(carta_jog)
-print(lista_movimentos_possiveis(new_baralho))
-print(lista_valores[num_jog-2], lista_valores[num_jog-4])
-print(lista_naipes[num_jog-2], lista_naipes[num_jog-4])
 
+###### Primeira Rodada ######
+#Enumera as opções
 
+qr_jogar = input('Deseja jogar? (s)(n)')
+if qr_jogar == 's':
+    while len(new_baralho)>1:
+        for i,value in enumerate(new_baralho, 1):
+            print(i,value)
+        num_jog = int(input('Escolha uma carta: '))
+        carta_jog = new_baralho[num_jog-1]
+        opc = lista_movimentos_possiveis(new_baralho)
+        print(lista_movimentos_possiveis(new_baralho))
 
+        print(carta_jog)
+        print(lista_valores[num_jog-2], lista_valores[num_jog-4])
+        print(lista_naipes[num_jog-2], lista_naipes[num_jog-4])
+        if opc == []:
+            while opc == []:
+                for i,value in enumerate(new_baralho, 1):
+                    print(i,value)
+                print('Esta carta não possui opções, selecione novamente')
+                num_jog = int(input('Escolha uma carta: '))
+                carta_jog = new_baralho[num_jog-1]
+                opc = lista_movimentos_possiveis(new_baralho)
+        if opc == [1]:
+            print('Você so possui uma opção, a carta anterior. Esta será escolhida automaticamente')
+            del(lista_valores[num_jog-2])
+            del(lista_naipes[num_jog-2])
+            del(new_baralho[num_jog-2])
+        elif opc == [3]:
+            print('Você so possui uma opção, a terceira carta anterior. Esta será escolhida automaticamente')
+            del(lista_valores[num_jog-4])
+            del(lista_naipes[num_jog-4])
+            del(new_baralho[num_jog-4])
+        else:
+            print('Você possui duas escolhas, a carta anterior (1) ou a terceira carta anterior (3)')
+            esc = input('Qual sua escolha?: ')
+            if esc == '1':
+                del(lista_valores[num_jog-2])
+                del(lista_naipes[num_jog-2])
+                del(new_baralho[num_jog-2])
+            else:
+                del(lista_valores[num_jog-4])
+                del(lista_naipes[num_jog-4])
+                del(new_baralho[num_jog-4])
+
+else:
+    print('Obrigado por jogar!')     
 
 
 #while qr_jogar == 's':
@@ -89,7 +117,8 @@ print(lista_naipes[num_jog-2], lista_naipes[num_jog-4])
     #num_jog = int(input('Escolha uma carta e passe seu número equivalente: '))
 #carta_jog = new_baralho[num_jog-1]
 #print(carta_jog)
-    
+
+
 #while carta_jog != 'n':
     #lista_movimentos_possiveis(new_baralho)
     #carta_jog = input('Escolha uma carta: ')
