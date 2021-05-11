@@ -1,4 +1,5 @@
 import random
+from stringcolor import * 
 
 #numeros =  ['2','3', '4' ,'5','6', '7','8','9','10','J','Q','K','A']
 #naipes = ['♠','♣',' ♦','♥']
@@ -114,7 +115,10 @@ while qr_jogar == 's':
     while len(new_baralho)>1 and possui_movimentos_possiveis(new_baralho) == True:
         #Enumera as opções
         for i,value in enumerate(new_baralho, 1):
-            print(i,value)
+            if '♥' in value or '♦' in value:
+                print(i, bold(value).underline().cs("Red3"))
+            else:
+                print(i, value)
         num_jog = int(input('Escolha uma carta: '))
         #Enquanto a carta escolhida for inválida...
         while num_jog>len(new_baralho) or num_jog<1:
