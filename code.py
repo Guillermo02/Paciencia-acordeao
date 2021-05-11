@@ -1,4 +1,5 @@
 import random
+from stringcolor import * 
 
 #numeros =  ['2','3', '4' ,'5','6', '7','8','9','10','J','Q','K','A']
 #naipes = ['♠','♣',' ♦','♥']
@@ -17,38 +18,32 @@ new_baralho = cria_baralho()
 #########################################################################################################
 ###Lista de naipes
 lista_naipes = []
-for i in new_baralho:
-    if len (i)>2:
-        lista_naipes.append(i[2])
-    else:
-        lista_naipes.append(i[1])
-
+def extrai_naipe():
+    for i in new_baralho:
+        lista_naipes.append(i[-1])
+    return lista_naipes
+ln = extrai_naipe()
 ###Lista de valores
 lista_valores = []
-for i in new_baralho:
-    if len(i)==2:
-        lista_valores.append(i[0])
-    if len (i)>2:
-        m = i[0]+i[1]
-        lista_valores.append(m)
+def extrai_valor():
+    for i in new_baralho:
+        if len(i)==2:
+            lista_valores.append(i[0])
+        if len (i)>2:
+            m = i[0]+i[1]
+            lista_valores.append(m)
+    return lista_valores
+lv = extrai_valor()
 #########################################################################################################
-##Função que verifica possiveis movimentos
+##Verifica se a carta possui movimentos possiveis##
 def lista_movimentos_possiveis(new_baralho):
     sol1 = False
     sol2 = False
-    if len(carta_jog)>2:
-        valor = carta_jog[0] + carta_jog[1]
-        naipe = carta_jog[2]
-    else:
-        valor = carta_jog[0]
-        naipe = carta_jog[1]
-    
-    #Verifica valor e naipe
-    if lista_valores[num_jog-2] in carta_jog or lista_naipes[num_jog-2] in carta_jog:
-        sol1 = True
-    if lista_valores[num_jog-4] in carta_jog or lista_naipes[num_jog-4] in carta_jog: 
-        sol2 = True
 
+    if lv[num_jog-2] in carta_jog or ln[num_jog-2] in carta_jog:
+        sol1 = True
+    if lv[num_jog-4] in carta_jog or ln[num_jog-4] in carta_jog: 
+        sol2 = True
     if sol1 == True and sol2==True:
         return [1, 3]
     elif sol1 == True and sol2==False:
@@ -58,16 +53,17 @@ def lista_movimentos_possiveis(new_baralho):
     else:
         return []
 
+##Verifica se ainda existem movimentos possiveis##
 def possui_movimentos_possiveis(new_baralho):
     i = 1
     for i in range(0,len(new_baralho)):
         carta = new_baralho[i]
+        naipe = carta[-1]
         if len(carta)>2:
             valor = carta[0] + carta[1]
-            naipe = carta[2]
         else:
             valor = carta[0]
-            naipe = carta[1]
+
         if valor in new_baralho[i-1] or naipe in new_baralho[i-1]:
             return True
         if i>=4:
@@ -76,56 +72,62 @@ def possui_movimentos_possiveis(new_baralho):
     else:
         return False
 
+##Empilha a carta com a escolhida##
+def empilha_carta(new_baralho, opc, num_jog):
+    if opc==[]:
+        while opc == []:
+            for i,value in enumerate(new_baralho, 1):
+                print(i,value)
+            print('Esta carta não possui opções, selecione novamente')
+            num_jog = int(input('Escolha uma carta: '))
+            carta_jog = new_baralho[num_jog-1]
+            opc = lista_movimentos_possiveis(new_baralho)
+    if opc==[1]:
+        print('Você so possui uma opção, a carta anterior. Esta será escolhida automaticamente')
+        del(lv[num_jog-2])
+        del(ln[num_jog-2])
+        del(new_baralho[num_jog-2])
+    elif opc==[3]:
+        print('Você so possui uma opção, a terceira carta anterior. Esta será escolhida automaticamente')
+        lv[num_jog-4] = lv[num_jog-1]
+        ln[num_jog-4] = ln[num_jog-1]
+        new_baralho[num_jog-4]  = new_baralho[num_jog-1]
+        del(lv[num_jog-1])
+        del(ln[num_jog-1])
+        del(new_baralho[num_jog-1])
+    else:
+        print('Você possui duas escolhas, a carta anterior (1) ou a terceira carta anterior (3)')
+        esc = input('Qual sua escolha?: ')
+        if esc == '1':
+                del(lv[num_jog-2])
+                del(ln[num_jog-2])
+                del(new_baralho[num_jog-2])
+        else:
+            lv[num_jog-4] = lv[num_jog-1]
+            ln[num_jog-4] = ln[num_jog-1]
+            new_baralho[num_jog-4] = new_baralho[num_jog-1]
+            del(lv[num_jog-1])
+            del(ln[num_jog-1])
+            del(new_baralho[num_jog-1])
 
 qr_jogar = input('Deseja jogar? (s)(n)')
 while qr_jogar == 's':
     while len(new_baralho)>1 and possui_movimentos_possiveis(new_baralho) == True:
         #Enumera as opções
         for i,value in enumerate(new_baralho, 1):
-            print(i,value)
+            if '♥' in value or '♦' in value:
+                print(i, bold(value).underline().cs("Red3"))
+            else:
+                print(i, value)
         num_jog = int(input('Escolha uma carta: '))
         #Enquanto a carta escolhida for inválida...
         while num_jog>len(new_baralho) or num_jog<1:
             print('Carta inválida, selecione novamente')
             num_jog = int(input('Escolha uma carta: '))
         carta_jog = new_baralho[num_jog-1]
-        opc = lista_movimentos_possiveis(new_baralho)
-
-        if opc==[]:
-            while opc == []:
-                for i,value in enumerate(new_baralho, 1):
-                    print(i,value)
-                print('Esta carta não possui opções, selecione novamente')
-                num_jog = int(input('Escolha uma carta: '))
-                carta_jog = new_baralho[num_jog-1]
-                opc = lista_movimentos_possiveis(new_baralho)
-        if opc == [1]:
-            print('Você so possui uma opção, a carta anterior. Esta será escolhida automaticamente')
-            del(lista_valores[num_jog-2])
-            del(lista_naipes[num_jog-2])
-            del(new_baralho[num_jog-2])
-        elif opc == [3]:
-            print('Você so possui uma opção, a terceira carta anterior. Esta será escolhida automaticamente')
-            lista_valores[num_jog-4]= lista_valores[num_jog-1]
-            lista_naipes[num_jog-4] = lista_naipes[num_jog-1]
-            new_baralho[num_jog-4]  = new_baralho[num_jog-1]
-            del(lista_valores[num_jog-1])
-            del(lista_naipes[num_jog-1])
-            del(new_baralho[num_jog-1])
-        else:
-            print('Você possui duas escolhas, a carta anterior (1) ou a terceira carta anterior (3)')
-            esc = input('Qual sua escolha?: ')
-            if esc == '1':
-                del(lista_valores[num_jog-2])
-                del(lista_naipes[num_jog-2])
-                del(new_baralho[num_jog-2])
-            else:
-                lista_valores[num_jog-4] = lista_valores[num_jog-1]
-                lista_naipes[num_jog-4]  = lista_naipes[num_jog-1]
-                new_baralho[num_jog-4]   = new_baralho[num_jog-1]
-                del(lista_valores[num_jog-1])
-                del(lista_naipes[num_jog-1])
-                del(new_baralho[num_jog-1])
+        opc = lista_movimentos_possiveis(new_baralho)  
+        empilha_carta(new_baralho, opc, num_jog)      
+            
     if possui_movimentos_possiveis(new_baralho) == False:
         print('Que pena você perdeu :(')
     else:
