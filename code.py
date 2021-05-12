@@ -1,8 +1,6 @@
 import random
 from stringcolor import * 
 
-#numeros =  ['2','3', '4' ,'5','6', '7','8','9','10','J','Q','K','A']
-#naipes = ['♠','♣',' ♦','♥']
 
 ###Baralho inicial
 baralho = ['A♥', 'K♥', 'Q♥', 'J♥', '10♥', '9♥', '8♥', '7♥', '6♥', '5♥', '4♥','3♥', '2♥','A♠', 'K♠', 'Q♠', 'J♠', '10♠','9♠', '8♠', '7♠', '6♠', '5♠', '4♠', '3♠', '2♠','A♦','K♦','Q♦', 'J♦', '10♦', '9♦', '8♦', '7♦', '6♦', '5♦', '4♦', '3♦', '2♦', 'A♣', 'K♣', 'Q♣', 'J♣', '10♣', '9♣', '8♣', '7♣', '6♣', '5♣', '4♣', '3♣', '2♣']
@@ -54,6 +52,8 @@ def lista_movimentos_possiveis(new_baralho, num_jog, carta_jog):
     else:
         return []
 
+
+#########################################################################################################
 ##Verifica se ainda existem movimentos possiveis##
 def possui_movimentos_possiveis(new_baralho):
     i = 1
@@ -73,6 +73,8 @@ def possui_movimentos_possiveis(new_baralho):
     else:
         return False
 
+
+#########################################################################################################
 ##Empilha a carta com a escolhida##
 def empilha_carta(new_baralho, opc, num_jog):
     if opc==[1]:
@@ -114,6 +116,8 @@ def empilha_carta(new_baralho, opc, num_jog):
             del(ln[num_jog-1])
             del(new_baralho[num_jog-1])
 
+
+#comeco do loop
 qr_jogar = input('Deseja jogar? (s)(n)')
 while qr_jogar == 's':
     while len(new_baralho)>1 and possui_movimentos_possiveis(new_baralho) == True:
@@ -131,7 +135,8 @@ while qr_jogar == 's':
         carta_jog = new_baralho[num_jog-1]
         opc = lista_movimentos_possiveis(new_baralho, num_jog, carta_jog)  
         empilha_carta(new_baralho, opc, num_jog)      
-            
+
+    #verifica se ganhou ou perdeu e ve se o jogador quer jogar novamente        
     if possui_movimentos_possiveis(new_baralho) == False:
         print('Que pena você perdeu :(')
     else:
