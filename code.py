@@ -36,14 +36,15 @@ def extrai_valor():
 lv = extrai_valor()
 #########################################################################################################
 ##Verifica se a carta possui movimentos possiveis##
-def lista_movimentos_possiveis(new_baralho):
+def lista_movimentos_possiveis(new_baralho, num_jog, carta_jog):
     sol1 = False
     sol2 = False
 
     if lv[num_jog-2] in carta_jog or ln[num_jog-2] in carta_jog:
         sol1 = True
-    if lv[num_jog-4] in carta_jog or ln[num_jog-4] in carta_jog: 
-        sol2 = True
+    if num_jog>3:
+        if lv[num_jog-4] in carta_jog or ln[num_jog-4] in carta_jog: 
+            sol2 = True
     if sol1 == True and sol2==True:
         return [1, 3]
     elif sol1 == True and sol2==False:
@@ -74,14 +75,6 @@ def possui_movimentos_possiveis(new_baralho):
 
 ##Empilha a carta com a escolhida##
 def empilha_carta(new_baralho, opc, num_jog):
-    if opc==[]:
-        while opc == []:
-            for i,value in enumerate(new_baralho, 1):
-                print(i,value)
-            print('Esta carta não possui opções, selecione novamente')
-            num_jog = int(input('Escolha uma carta: '))
-            carta_jog = new_baralho[num_jog-1]
-            opc = lista_movimentos_possiveis(new_baralho)
     if opc==[1]:
         print('Você so possui uma opção, a carta anterior. Esta será escolhida automaticamente')
         del(lv[num_jog-2])
@@ -95,6 +88,17 @@ def empilha_carta(new_baralho, opc, num_jog):
         del(lv[num_jog-1])
         del(ln[num_jog-1])
         del(new_baralho[num_jog-1])
+    elif opc==[]:
+        while opc == []:
+            for i,value in enumerate(new_baralho, 1):
+                if '♥' in value or '♦' in value:
+                    print(i, bold(value).underline().cs("Red3"))
+                else:
+                    print(i, value)
+            print('Esta carta não possui opções, selecione novamente')
+            num_jog = int(input('Escolha uma carta: '))
+            carta_jog = new_baralho[num_jog-1]
+            opc = lista_movimentos_possiveis(new_baralho, num_jog, carta_jog)
     else:
         print('Você possui duas escolhas, a carta anterior (1) ou a terceira carta anterior (3)')
         esc = input('Qual sua escolha?: ')
@@ -125,7 +129,7 @@ while qr_jogar == 's':
             print('Carta inválida, selecione novamente')
             num_jog = int(input('Escolha uma carta: '))
         carta_jog = new_baralho[num_jog-1]
-        opc = lista_movimentos_possiveis(new_baralho)  
+        opc = lista_movimentos_possiveis(new_baralho, num_jog, carta_jog)  
         empilha_carta(new_baralho, opc, num_jog)      
             
     if possui_movimentos_possiveis(new_baralho) == False:
