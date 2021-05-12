@@ -1,3 +1,13 @@
+#Insper
+#Engenharia Turma A
+#Guillermo e Raymond
+
+#Por favor instalar no terminal esse codigo: (pip install string-color) para deixar as cartas com cores.
+#Caso nao consiga instalar so retirar o import do "stringcolor", tambem deletar a linha 111, 112, ,113 e 145,146 e 147)
+
+#Jogo Paciencia Acordeao!
+
+
 import random
 from stringcolor import * 
 
@@ -16,13 +26,16 @@ new_baralho = cria_baralho()
 #########################################################################################################
 ###Lista de naipes
 lista_naipes = []
+
 def extrai_naipe():
     for i in new_baralho:
         lista_naipes.append(i[-1])
     return lista_naipes
 ln = extrai_naipe()
+
 ###Lista de valores
 lista_valores = []
+
 def extrai_valor():
     for i in new_baralho:
         if len(i)==2:
@@ -31,6 +44,7 @@ def extrai_valor():
             m = i[0]+i[1]
             lista_valores.append(m)
     return lista_valores
+
 lv = extrai_valor()
 #########################################################################################################
 ##Verifica se a carta possui movimentos possiveis##
@@ -91,12 +105,15 @@ def empilha_carta(new_baralho, opc, num_jog):
         del(ln[num_jog-1])
         del(new_baralho[num_jog-1])
     elif opc==[]:
+
         while opc == []:
+
             for i,value in enumerate(new_baralho, 1):
                 if '♥' in value or '♦' in value:
                     print(i, bold(value).underline().cs("Red3"))
                 else:
                     print(i, value)
+                    
             print('Esta carta não possui opções, selecione novamente')
             num_jog = int(input('Escolha uma carta: '))
             carta_jog = new_baralho[num_jog-1]
@@ -119,8 +136,11 @@ def empilha_carta(new_baralho, opc, num_jog):
 
 #comeco do loop
 qr_jogar = input('Deseja jogar? (s)(n)')
+
 while qr_jogar == 's':
+
     while len(new_baralho)>1 and possui_movimentos_possiveis(new_baralho) == True:
+
         #Enumera as opções
         for i,value in enumerate(new_baralho, 1):
             if '♥' in value or '♦' in value:
